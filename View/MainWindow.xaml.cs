@@ -1,7 +1,13 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
-using ViewModel;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace View
 {
@@ -10,58 +16,9 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _fullscreenActive = false;
-
-        private readonly MainViewModel _vm;
-
         public MainWindow()
         {
             InitializeComponent();
-            _vm = (MainViewModel)DataContext;
-
-        }
-
-        private void OnMouseDown(object? sender, MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
-            Point p = e.GetPosition(Buffer);
-
-            int x = (int)p.X;
-            int y = (int)p.Y;
-
-            _vm.HandleMouseClick(x / Buffer.ActualWidth, y / Buffer.ActualHeight);
-        }
-
-        private void OnKeyDown(object? sender, KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            if (e.Key == Key.F11)
-                ToggleFullscreen();
-            else if (e.Key == Key.Escape)
-                _vm.ClosePanel();
-            else if (e.Key == Key.Q)
-                Environment.Exit(0);
-        }
-
-        private void ToggleFullscreen()
-        {
-            if (_fullscreenActive)
-            {
-                WindowStyle = WindowStyle.SingleBorderWindow;
-                WindowState = WindowState.Normal;
-            }
-            else
-            {
-                WindowStyle = WindowStyle.None;
-                WindowState = WindowState.Maximized;
-            }
-            _fullscreenActive = !_fullscreenActive;
-        }
-
-        private void mediaElement_OnMediaEnded(object sender, RoutedEventArgs e)
-        {
-            myMediaElement.Position = new TimeSpan(0, 0, 1);
-            myMediaElement.Play();
         }
     }
 }
